@@ -1,0 +1,27 @@
+version: '2'
+services:
+  sentry:
+    build: .
+    ports:
+     - "8080:8080"
+    environment:
+     - PG_SENTRY_HOST=db
+     - PG_SENTRY_PORT=5432
+     - PG_SENTRY_SCHEMA=postgres
+     - PG_SENTRY_ROLE=postgres
+     - PG_SENTRY_PASSWORD=awesomesauce
+     - REDIS_SENTRY_HOST=cache
+     - REDIS_SENTRY_PORT=6379
+     - SENTRY_SECRET_KEY='1v*q5#7f8t-_q==as@-zur!yfm@j^l%1cje06k-=8di2tnqaw'
+     - ADMIN_EMAIL=madams@atlassian.com
+     - ADMIN_PASSWORD=abc123
+     - AUTOMIGRATE=1
+    links:
+     - db
+     - cache
+  db:
+    image: postgres
+    environment:
+     - POSTGRES_PASSWORD=awesomesauce
+  cache:
+    image: redis
